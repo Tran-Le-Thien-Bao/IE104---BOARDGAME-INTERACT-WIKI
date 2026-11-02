@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Giới thiệu về Wiki Board Game và nguồn tham khảo.">
+  <title>Giới thiệu | Wiki Board Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">🎲 <span>Wiki Board Game</span></a>
+      <button class="menu-toggle" aria-label="Mở menu" aria-expanded="false" aria-controls="site-nav">☰</button>
+      <nav class="site-nav" id="site-nav" aria-label="Menu chính">
+        <a href="index.html">Trang chủ</a>
+        <a href="games.html">Khám phá</a>
+        <a href="about.html" aria-current="page">Giới thiệu</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page prose">
+    <h1>Giới thiệu</h1>
+    <p>
+      <strong>Wiki Board Game</strong> là thư viện board game bằng tiếng Việt. Mỗi game có phần giới thiệu ngắn
+      và luật chơi được viết lại cho dễ hiểu, để người mới có thể mở hộp và chơi ngay.
+    </p>
+
+    <h2>Website có gì?</h2>
+    <ul>
+      <li>Thông tin cơ bản của từng game: số người chơi, thời gian, độ tuổi, độ khó.</li>
+      <li>Giới thiệu và luật chơi bằng tiếng Việt.</li>
+      <li>Gợi ý các game tương tự.</li>
+    </ul>
+
+    <h2>Nguồn tham khảo</h2>
+    <ul>
+      <li>Bố cục lấy cảm hứng từ <a href="https://boardgamewikia.com/vi" target="_blank" rel="noopener">Board Game Wikia</a>.</li>
+      <li>Toàn bộ chữ và code trên website do nhóm tự viết. Luật chơi được diễn giải lại, không dịch nguyên văn sách luật.</li>
+      <li>Tên game và hình ảnh thuộc bản quyền của tác giả và nhà phát hành tương ứng.</li>
+    </ul>
+
+    <h2>Đồ án</h2>
+    <p>Website được làm cho môn học về HTML, chỉ dùng HTML, CSS và JavaScript thuần.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Wiki Board Game · Đồ án môn HTML</p>
+      <p class="footer-note">Bố cục lấy cảm hứng từ Board Game Wikia. Nội dung do nhóm tự viết.</p>
+    </div>
+  </footer>
+
+  <script src="js/games.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
