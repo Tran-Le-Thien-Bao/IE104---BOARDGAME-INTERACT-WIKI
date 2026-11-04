@@ -1,75 +1,311 @@
-// Trang chi tiết: đọc ?id= trên link rồi đổ dữ liệu game vào khuôn game.html.
+// Trang chi tiết dạng "tủ game": cột trái là danh sách game, khung phải trưng bày game đang chọn.
+// Bấm game ở cột trái thì đổi game mà không tải lại trang; link vẫn là game.html?id=<id>.
 // Cần nạp js/games.js và js/main.js trước file này.
 
-function renderGameDetail(container, game) {
-  const categories = game.categories
-    .map((id) => `<span class="tag" style="--accent: ${CATEGORIES[id].color}">${CATEGORIES[id].name}</span>`)
-    .join("");
+// 6 nút tròn quanh ảnh hộp game, theo thứ tự:
+// trên trái, trên phải, giữa trái, giữa phải, dưới trái, dưới phải
+const PANELS = [
+  { id: "gioi-thieu", icon: "ℹ️", label: "Giới thiệu" },
+  { id: "do-kho",     icon: "🧠", label: "Độ khó" },
+  { id: "luat-choi",  icon: "📜", label: "Luật chơi" },
+  { id: "video",      icon: "▶️", label: "Video" },
+  { id: "thanh-phan", icon: "🧩", label: "Thành phần" },
+  { id: "tuong-tu",   icon: "🎲", label: "Tương tự" }
+];
 
-  // Game tương tự: có chung ít nhất một thể loại
-  const similar = GAMES
-    .filter((other) => other.id !== game.id && other.categories.some((id) => game.categories.includes(id)))
-    .slice(0, 6);
+const DIFFICULTY_NOTES = {
+  "Dễ": "Luật ngắn, giải thích trong 5–10 phút. Hợp với người mới và chơi cùng gia đình.",
+  "Vừa": "Cần một ván làm quen, sau đó chơi trơn tru. Hợp với nhóm đã chơi vài game.",
+  "Khó": "Nhiều luật và lựa chọn, ván đầu nên có người biết chơi hướng dẫn.",
+  "Rất khó": "Luật dài, cần tính toán nhiều. Dành cho người đã quen board game."
+};
 
-  container.innerHTML = `
-    <article class="game-detail">
-      <header class="game-header">
-        <div class="game-cover">${renderCover(game)}</div>
-        <div class="game-summary">
-          <h1>${game.name} <span class="game-year">(${game.year})</span></h1>
-          ${game.nameVi ? `<p class="game-name-vi">${game.nameVi}</p>` : ""}
-          <div class="tags">${categories}</div>
-          <table class="info-table">
-            <caption>Thông tin cơ bản</caption>
-            <tbody>
-              <tr><th scope="row">👥 Số người chơi</th><td>${formatRange(game.players)}</td></tr>
-              <tr><th scope="row">⏱ Thời gian</th><td>${formatRange(game.time)} phút</td></tr>
-              <tr><th scope="row">🎂 Độ tuổi</th><td>${game.age}+</td></tr>
-              <tr><th scope="row">🧠 Độ khó</th><td>${game.weight}/5</td></tr>
-              <tr><th scope="row">✏️ Tác giả</th><td>${game.designer}</td></tr>
-              <tr><th scope="row">🏢 Nhà phát hành</th><td>${game.publisher}</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </header>
+// Các mục trong game.rules; mục "turn" là các bước nên dùng danh sách có số
+const RULE_SECTIONS = [
+  { key: "setup",    title: "Chuẩn bị" },
+  { key: "goal",     title: "Mục tiêu" },
+  { key: "turn",     title: "Một lượt chơi", ordered: true },
+  { key: "end",      title: "Kết thúc & tính điểm" },
+  { key: "mistakes", title: "Lỗi luật hay gặp" },
+  { key: "tips",     title: "Mẹo cho người mới" }
+];
 
-      <nav class="game-tabs" aria-label="Mục lục">
-        <a href="#gioi-thieu">Giới thiệu</a>
-        <a href="#luat-choi">Luật chơi</a>
-        <a href="#tuong-tu">Game tương tự</a>
-      </nav>
+let currentGame = null;
+let currentPanel = null;   // null = đang xem bảng thông số
 
-      <section id="gioi-thieu" class="game-section">
-        <h2>Giới thiệu</h2>
-        <p>${game.intro}</p>
-      </section>
-
-      <section id="luat-choi" class="game-section">
-        <h2>Luật chơi</h2>
-        <p class="empty-note">📜 Luật chơi đang được cập nhật.</p>
-      </section>
-
-      <section id="tuong-tu" class="game-section">
-        <h2>Game tương tự</h2>
-        <div class="card-row">${similar.map(renderCard).join("")}</div>
-      </section>
-    </article>`;
+// Giá trị có thể là một đoạn văn hoặc mảng gạch đầu dòng
+function renderText(value, ordered) {
+  if (Array.isArray(value)) {
+    const tag = ordered ? "ol" : "ul";
+    return `<${tag}>${value.map((item) => `<li>${item}</li>`).join("")}</${tag}>`;
+  }
+  return `<p>${value}</p>`;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("game-detail");
-  const id = new URLSearchParams(window.location.search).get("id");
-  const game = getGame(id);
+function emptyNote(text) {
+  return `<p class="empty-note">${text}</p>`;
+}
 
-  if (!game) {
-    container.innerHTML = `
+// ===== Cột trái =====
+
+function renderTile(game) {
+  const level = difficultyLevel(game.weight);
+  const selected = currentGame && currentGame.id === game.id;
+  return `
+    <li>
+      <a class="tile" href="game.html?id=${game.id}" data-game-id="${game.id}"
+         style="--accent: ${mainCategory(game).color}" ${selected ? 'aria-current="page"' : ""}>
+        <span class="badge badge-players" title="Số người chơi: ${formatRange(game.players)}">👥 ${formatRange(game.players)}</span>
+        <div class="tile-cover">
+          ${renderCover(game)}
+          <span class="badge badge-level" style="--level: ${level.color}" title="Độ khó: ${level.label} (${game.weight}/5)">${level.label}</span>
+        </div>
+        <span class="tile-name">${game.nameVi || game.name}</span>
+        <span class="tile-meta">⏱ ${formatRange(game.time)}′ · ${game.age}+</span>
+      </a>
+    </li>`;
+}
+
+function renderGameList(query) {
+  const keyword = normalizeText(query.trim());
+  const games = GAMES.filter((game) =>
+    normalizeText(`${game.name} ${game.nameVi} ${game.id}`).includes(keyword));
+  document.getElementById("game-list-items").innerHTML = games.map(renderTile).join("");
+  document.getElementById("game-list-empty").hidden = games.length > 0;
+}
+
+// ===== Nội dung 6 nút tròn =====
+
+const PANEL_CONTENT = {
+  "gioi-thieu": (game) => {
+    const tags = game.categories
+      .map((id) => `<span class="tag" style="--accent: ${CATEGORIES[id].color}">${CATEGORIES[id].icon} ${CATEGORIES[id].name}</span>`)
+      .join("");
+    return `<p>${game.intro}</p><div class="tags">${tags}</div>`;
+  },
+
+  "do-kho": (game) => {
+    const level = difficultyLevel(game.weight);
+    return `
+      <p class="level-score" style="--level: ${level.color}">${level.label} <span>${game.weight}/5</span></p>
+      <div class="meter" style="--level: ${level.color}; --value: ${(game.weight / 5) * 100}%"
+           role="img" aria-label="Độ khó ${game.weight} trên 5"><span></span></div>
+      <p>${DIFFICULTY_NOTES[level.label]}</p>
+      <p>Một ván khoảng <strong>${formatRange(game.time)} phút</strong>, từ <strong>${game.age} tuổi</strong> trở lên.</p>`;
+  },
+
+  "luat-choi": (game) => {
+    let html = "";
+    if (game.rulesSummary) {
+      html += `<h3>Luật trong 1 phút</h3>${renderText(game.rulesSummary)}`;
+    }
+    if (game.rules) {
+      html += RULE_SECTIONS
+        .filter((section) => game.rules[section.key])
+        .map((section) => `<h3>${section.title}</h3>${renderText(game.rules[section.key], section.ordered)}`)
+        .join("");
+    }
+    return html || emptyNote("📜 Luật chơi đang được cập nhật.");
+  },
+
+  "video": (game) => {
+    if (!game.videos || game.videos.length === 0) return emptyNote("▶️ Video hướng dẫn đang được cập nhật.");
+    return game.videos.map((videoId) => `
+      <iframe class="video-frame" src="https://www.youtube-nocookie.com/embed/${videoId}"
+              title="Video hướng dẫn ${game.name}" loading="lazy"
+              allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>`).join("");
+  },
+
+  "thanh-phan": (game) => {
+    if (!game.rules || !game.rules.components) return emptyNote("🧩 Thành phần trong hộp đang được cập nhật.");
+    return renderText(game.rules.components);
+  },
+
+  "tuong-tu": (game) => {
+    // Game tương tự: có chung ít nhất một thể loại
+    const similar = GAMES
+      .filter((other) => other.id !== game.id && other.categories.some((id) => game.categories.includes(id)))
+      .slice(0, 6);
+    if (similar.length === 0) return emptyNote("Chưa có game tương tự.");
+    return `<ul class="game-tiles similar-tiles">${similar.map(renderTile).join("")}</ul>`;
+  }
+};
+
+function renderStats(game) {
+  const level = difficultyLevel(game.weight);
+  return `
+    <h2 class="panel-title" id="info-panel-title">Thông số board game</h2>
+    <table class="stat-table">
+      <tbody>
+        <tr><th scope="row">Số người chơi</th><td>${formatRange(game.players)}</td></tr>
+        <tr><th scope="row">Thời gian</th><td>${formatRange(game.time)}′</td></tr>
+        <tr><th scope="row">Độ tuổi</th><td>${game.age}+</td></tr>
+        <tr><th scope="row">Độ khó</th><td>${game.weight}/5 · ${level.label}</td></tr>
+        <tr><th scope="row">Năm phát hành</th><td>${game.year}</td></tr>
+        <tr><th scope="row">Rating</th><td>${game.rating ? `${game.rating}/10` : "—"}</td></tr>
+        <tr class="wide"><th scope="row">Tác giả</th><td>${game.designer}</td></tr>
+        <tr class="wide"><th scope="row">Nhà phát hành</th><td>${game.publisher}</td></tr>
+      </tbody>
+    </table>`;
+}
+
+function renderPanel(game, panelId) {
+  const panel = PANELS.find((item) => item.id === panelId);
+  return `
+    <div class="panel-head">
+      <h2 class="panel-title" id="info-panel-title">${panel.icon} ${panel.label}</h2>
+      <button type="button" class="panel-close" data-close-panel>✕ Đóng</button>
+    </div>
+    <div class="panel-body">${PANEL_CONTENT[panelId](game)}</div>`;
+}
+
+// Bấm nút đang mở thì đóng lại, về bảng thông số
+function openPanel(panelId) {
+  currentPanel = currentPanel === panelId ? null : panelId;
+  document.getElementById("info-panel").innerHTML = currentPanel
+    ? renderPanel(currentGame, currentPanel)
+    : renderStats(currentGame);
+  document.querySelectorAll(".node").forEach((node) => {
+    node.setAttribute("aria-pressed", node.dataset.panel === currentPanel);
+  });
+}
+
+// ===== Khung trưng bày =====
+
+function renderShowcase(container, game) {
+  const category = mainCategory(game);
+  const level = difficultyLevel(game.weight);
+  const categoryIcons = game.categories
+    .map((id) => `<span title="${CATEGORIES[id].name}">${CATEGORIES[id].icon}</span>`)
+    .join(" ");
+  const background = game.image
+    ? `<img class="showcase-photo" src="${game.image}" alt="">`
+    : `<span class="showcase-icon">${category.icon}</span>`;
+  const nodes = PANELS.map((panel, index) => `
+    <button type="button" class="node node-${index + 1}" data-panel="${panel.id}"
+            aria-pressed="false" aria-controls="info-panel">
+      <span class="node-icon" aria-hidden="true">${panel.icon}</span>
+      <span class="node-label">${panel.label}</span>
+    </button>`).join("");
+
+  container.style.setProperty("--accent", category.color);
+  container.innerHTML = `
+    <div class="showcase-bg" aria-hidden="true">${background}</div>
+    <div class="showcase-content">
+      <header class="showcase-head">
+        <h1 class="showcase-title">${game.name}</h1>
+        <p class="showcase-sub">${game.nameVi ? `${game.nameVi} · ` : ""}${game.year}</p>
+        <ul class="quick-bar" aria-label="Thông tin nhanh">
+          <li title="Số người chơi">👥 ${formatRange(game.players)} người</li>
+          <li title="Thời gian">⏱ ${formatRange(game.time)}′</li>
+          <li title="Độ tuổi">🎂 ${game.age}+</li>
+          <li class="quick-level" style="--level: ${level.color}" title="Độ khó ${game.weight}/5">🧠 ${level.label}</li>
+          <li title="Thể loại">${categoryIcons}</li>
+        </ul>
+      </header>
+
+      <section class="info-panel" id="info-panel" aria-labelledby="info-panel-title">
+        ${renderStats(game)}
+      </section>
+
+      <nav class="node-ring" aria-label="Nội dung của ${game.name}">
+        ${nodes}
+        <div class="node-center">
+          ${renderCover(game)}
+          <span class="node-label">${game.year}</span>
+        </div>
+      </nav>
+    </div>`;
+}
+
+function selectGame(id, push) {
+  const showcase = document.getElementById("game-detail");
+  currentGame = getGame(id);
+  currentPanel = null;
+
+  document.querySelectorAll("#game-list-items .tile").forEach((tile) => {
+    if (currentGame && tile.dataset.gameId === currentGame.id) tile.setAttribute("aria-current", "page");
+    else tile.removeAttribute("aria-current");
+  });
+
+  if (!currentGame) {
+    showcase.style.removeProperty("--accent");
+    showcase.innerHTML = `
       <section class="not-found">
         <h1>Không tìm thấy game</h1>
-        <p>Game này chưa có trên wiki. <a href="games.html">Xem tất cả game →</a></p>
+        <p>Game này chưa có trên wiki. Chọn một game ở danh sách bên trái nhé.</p>
       </section>`;
     return;
   }
 
-  document.title = `${game.name} – Luật chơi & giới thiệu | Wiki Board Game`;
-  renderGameDetail(container, game);
+  if (push) history.pushState({ id }, "", `game.html?id=${id}`);
+  document.title = `${currentGame.name} – Luật chơi & giới thiệu | Wiki Board Game`;
+  renderShowcase(showcase, currentGame);
+}
+
+function idFromUrl() {
+  return new URLSearchParams(window.location.search).get("id") || GAMES[0].id;
+}
+
+// ===== Nền sáng / tối =====
+
+function updateThemeButton() {
+  const dark = document.documentElement.dataset.theme === "dark";
+  const button = document.getElementById("theme-toggle");
+  button.textContent = dark ? "☀️" : "🌙";
+  button.setAttribute("aria-label", dark ? "Chuyển sang nền sáng" : "Chuyển sang nền tối");
+}
+
+function setupTheme() {
+  updateThemeButton();
+  document.getElementById("theme-toggle").addEventListener("click", () => {
+    const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+    updateThemeButton();
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setupTheme();
+  selectGame(idFromUrl(), false);
+  renderGameList("");
+
+  document.getElementById("game-search").addEventListener("input", (event) => {
+    renderGameList(event.target.value);
+  });
+
+  const listToggle = document.getElementById("list-toggle");
+  listToggle.addEventListener("click", () => {
+    const collapsed = document.getElementById("detail-layout").classList.toggle("list-collapsed");
+    listToggle.setAttribute("aria-expanded", !collapsed);
+    listToggle.textContent = collapsed ? "▶" : "◀ Thu nhỏ";
+  });
+
+  // Bấm vào game (ở danh sách hoặc mục Tương tự): đổi game tại chỗ, giữ Ctrl/giữa chuột thì mở tab mới như thường
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a[data-game-id]");
+    if (!link || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    event.preventDefault();
+    selectGame(link.dataset.gameId, true);
+    if (window.innerWidth <= 900) {
+      document.getElementById("game-detail").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+
+  document.getElementById("game-detail").addEventListener("click", (event) => {
+    const node = event.target.closest("[data-panel]");
+    if (node) openPanel(node.dataset.panel);
+    if (event.target.closest("[data-close-panel]")) openPanel(currentPanel);
+  });
+
+  // Esc: đóng nội dung đang mở, đưa con trỏ về nút tròn vừa bấm
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !currentPanel) return;
+    const panelId = currentPanel;
+    openPanel(panelId);
+    document.querySelector(`.node[data-panel="${panelId}"]`).focus();
+  });
+
+  window.addEventListener("popstate", () => selectGame(idFromUrl(), false));
 });

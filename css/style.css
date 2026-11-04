@@ -35,6 +35,16 @@ h1, h2, h3 { line-height: 1.25; }
 
 .page { padding-top: 32px; padding-bottom: 48px; }
 
+/* Ẩn khỏi màn hình nhưng trình đọc màn hình vẫn đọc được */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 /* ===== Header ===== */
 .site-header {
   position: sticky;
@@ -226,92 +236,7 @@ h1, h2, h3 { line-height: 1.25; }
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* ===== Trang chi tiết ===== */
-.game-header {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 32px;
-  align-items: start;
-}
-
-.game-cover .cover { border-radius: var(--radius); box-shadow: var(--shadow); }
-
-.game-summary h1 { margin: 0; font-size: 2rem; }
-
-.game-year { color: var(--muted); font-weight: 500; }
-
-.game-name-vi { margin: 4px 0 0; color: var(--muted); font-size: 1.1rem; }
-
-.tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 20px; }
-
-.tag {
-  padding: 2px 12px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-}
-
-.info-table {
-  width: 100%;
-  max-width: 480px;
-  border-collapse: collapse;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-.info-table caption {
-  text-align: left;
-  font-weight: 700;
-  padding-bottom: 8px;
-}
-
-.info-table th,
-.info-table td {
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
-}
-
-.info-table tr:last-child th,
-.info-table tr:last-child td { border-bottom: 0; }
-
-.info-table th { font-weight: 500; color: var(--muted); width: 50%; }
-
-.game-tabs {
-  position: sticky;
-  top: var(--header-h);
-  z-index: 5;
-  display: flex;
-  gap: 4px;
-  margin: 32px 0 8px;
-  padding: 8px 0;
-  background: var(--bg);
-  border-bottom: 2px solid var(--border);
-  overflow-x: auto;
-}
-
-.game-tabs a {
-  padding: 8px 16px;
-  font-weight: 700;
-  color: var(--text);
-  text-decoration: none;
-  border-radius: 8px;
-  white-space: nowrap;
-}
-
-.game-tabs a:hover { background: var(--surface); color: var(--primary); }
-
-.game-section {
-  padding: 24px 0;
-  scroll-margin-top: calc(var(--header-h) + 60px);
-}
-
-.game-section h2 { margin-top: 0; }
-
+/* ===== Dùng chung cho trang chi tiết ===== */
 .empty-note {
   padding: 16px 20px;
   background: var(--surface);
@@ -358,10 +283,5 @@ h1, h2, h3 { line-height: 1.25; }
   .card-row { grid-auto-columns: 150px; }
 
   .card-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-
-  .game-header { grid-template-columns: 1fr; }
-
-  .game-cover { max-width: 220px; margin: 0 auto; }
-
-  .game-summary h1 { font-size: 1.6rem; }
 }
+

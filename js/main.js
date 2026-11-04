@@ -10,6 +10,24 @@ function getGame(id) {
   return GAMES.find((game) => game.id === id);
 }
 
+// Độ khó 1–5 → nhãn và màu, dùng cho huy hiệu và thanh độ khó
+function difficultyLevel(weight) {
+  if (weight < 2) return { label: "Dễ", color: "#2e9d5b" };
+  if (weight < 3) return { label: "Vừa", color: "#d9a514" };
+  if (weight < 4) return { label: "Khó", color: "#e0662d" };
+  return { label: "Rất khó", color: "#c0392b" };
+}
+
+// Bỏ dấu tiếng Việt để tìm kiếm: "Mèo Nổ" → "meo no"
+function normalizeText(text) {
+  return text
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toLowerCase();
+}
+
 // Màu và biểu tượng của thể loại đầu tiên quyết định ảnh tạm của game
 function mainCategory(game) {
   return CATEGORIES[game.categories[0]];
