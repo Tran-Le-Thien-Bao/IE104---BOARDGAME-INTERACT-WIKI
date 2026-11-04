@@ -1,7 +1,6 @@
 # Board Game Website
 
-Website về board game. Project đang ở giai đoạn khởi tạo — mã nguồn sẽ được dựng tiếp bằng Claude Code.
-
+Website về board game.
 ## Cấu trúc hiện tại
 
 ```
