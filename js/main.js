@@ -1,9 +1,20 @@
 // Các hàm dùng chung cho mọi trang + vẽ trang chủ / trang Khám phá.
 // Cần nạp js/games.js trước file này.
 
-// "3–4" hoặc "15" nếu hai số bằng nhau
+// "3–4" hoặc "15" nếu hai số bằng nhau; chưa có số liệu thì "—"
 function formatRange(range) {
+  if (!range) return "—";
   return range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`;
+}
+
+// Thời gian chơi: "30–60′"; chưa có số liệu thì "—"
+function formatTime(time) {
+  return time ? `${formatRange(time)}′` : "—";
+}
+
+// Giá trị kèm đơn vị, ví dụ orDash(10, "+") → "10+"; chưa có số liệu thì "—"
+function orDash(value, suffix = "") {
+  return value === null || value === undefined || value === "" ? "—" : `${value}${suffix}`;
 }
 
 function getGame(id) {
@@ -12,6 +23,7 @@ function getGame(id) {
 
 // Độ khó 1–5 → nhãn và màu, dùng cho huy hiệu và thanh độ khó
 function difficultyLevel(weight) {
+  if (!weight) return { label: "Chưa rõ", color: "#8a8178" };
   if (weight < 2) return { label: "Dễ", color: "#2e9d5b" };
   if (weight < 3) return { label: "Vừa", color: "#d9a514" };
   if (weight < 4) return { label: "Khó", color: "#e0662d" };
@@ -60,7 +72,7 @@ function renderCard(game) {
               <h3 class="card-title">${game.nameVi || game.name}</h3>
               <p class="card-meta">
                 <span title="Số người chơi">👥 ${formatRange(game.players)}</span>
-                <span title="Thời gian">⏱ ${formatRange(game.time)}′</span>
+                <span title="Thời gian">⏱ ${formatTime(game.time)}</span>
               </p>
             </div>
           </div>
@@ -68,9 +80,9 @@ function renderCard(game) {
             <h3 class="card-title">${game.name}</h3>
             <dl class="card-stats">
               <dt>Số người</dt><dd>${formatRange(game.players)}</dd>
-              <dt>Thời gian</dt><dd>${formatRange(game.time)} phút</dd>
-              <dt>Độ tuổi</dt><dd>${game.age}+</dd>
-              <dt>Độ khó</dt><dd>${game.weight}/5</dd>
+              <dt>Thời gian</dt><dd>${orDash(game.time && formatRange(game.time), " phút")}</dd>
+              <dt>Độ tuổi</dt><dd>${orDash(game.age, "+")}</dd>
+              <dt>Độ khó</dt><dd>${orDash(game.weight, "/5")}</dd>
             </dl>
           </div>
         </div>

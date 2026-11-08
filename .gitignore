@@ -17,3 +17,9 @@ Thumbs.db
 *.log
 
 CLAUDE.md
+
+# Excel đang mở
+~$*
+
+# Sách luật PDF: chỉ lưu link trong rulebooks/*.md
+rulebooks/*.pdf
