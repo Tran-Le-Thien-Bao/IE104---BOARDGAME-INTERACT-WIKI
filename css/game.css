@@ -1,38 +1,7 @@
 /* ===== Trang chi tiết dạng "tủ game" (game.html) =====
    Cột trái: danh sách game. Khung phải: ảnh nền + tên game + bảng thông số + 6 nút tròn.
-   Nền sáng/tối: <html data-theme="light|dark">, đổi bằng nút ở header (js/game.js). */
-
-/* ===== Nền tối ===== */
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #15131b;
-  --surface: #211e29;
-  --text: #f3ede4;
-  --muted: #a99f94;
-  --border: #363140;
-  --primary: #e06a50;
-  --primary-dark: #c8553d;
-  --shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
-}
-
-:root[data-theme="dark"] .site-footer { background: #0d0c11; }
-
-/* ===== Header: thêm nút đổi nền ===== */
-.header-inner { gap: 8px; }
-
-.logo { margin-right: auto; }
-
-.theme-toggle {
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--bg);
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
-.theme-toggle:hover { border-color: var(--primary); }
+   Nền sáng/tối: <html data-theme="light|dark">, đổi bằng nút ở header (js/game.js).
+   Nạp sau css/style.css. Phần cuối file phủ chữ, màu, viền theo phong cách MeeplePedia. */
 
 /* ===== Bố cục 2 cột ===== */
 .detail-layout {
@@ -585,4 +554,297 @@
   .node-center .cover-icon { font-size: 2.6rem; }
 
   .stat-table tbody { grid-template-columns: 1fr; }
+}
+
+/* =====================================================================
+   Phong cách MeeplePedia cho trang chi tiết: chữ, màu, viền
+   ===================================================================== */
+
+/* ===== Màu: tối (mặc định) và sáng ===== */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0a0f1a;
+  --surface: #111a2b;
+  --text: #ece6da;
+  --muted: #9aa3b2;
+  --border: rgba(201, 164, 92, 0.28);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --gold-text: #e3c88a;      /* chữ vàng đọc rõ trên nền tối */
+  --node-bg: #1a2539;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4efe6;
+  --surface: #fffdf8;
+  --text: #1a2030;
+  --muted: #6b6458;
+  --border: rgba(138, 106, 47, 0.3);
+  --shadow: 0 10px 28px rgba(60, 45, 20, 0.12);
+  --gold-text: #8a6a2f;      /* vàng đậm để đọc rõ trên nền ngà */
+  --node-bg: #fffdf8;
+}
+
+body { background: var(--bg); color: var(--text); }
+
+/* Mọi chỗ trước đây lấy màu thể loại nay đều dùng vàng champagne */
+.showcase,
+.tile,
+.similar-tiles .tile { --accent: #c9a45c !important; }
+
+/* ===== Header: luôn tối, dính trên đầu trang ===== */
+.lux-header {
+  position: sticky;
+  background: rgba(10, 15, 26, 0.94);
+  border-bottom-color: var(--line);
+  backdrop-filter: blur(12px);
+}
+
+.lux-header-right { display: flex; align-items: center; gap: 28px; }
+
+.lux-header .theme-toggle {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--gold-light);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.lux-header .theme-toggle:hover { border-color: var(--gold); }
+
+/* ===== Cột trái ===== */
+.detail-layout { padding-top: 24px; }
+
+.game-list {
+  top: calc(var(--header-h) + 20px);
+  height: calc(100vh - var(--header-h) - 40px);
+  background: var(--surface);
+  border-color: var(--border);
+  border-radius: 4px;
+}
+
+.game-search,
+.list-toggle {
+  border-color: var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  font-family: "Be Vietnam Pro", sans-serif;
+}
+
+.list-toggle {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+.game-search:focus { outline-color: var(--gold); }
+
+.tile {
+  border-width: 1px;
+  border-color: var(--border);
+  border-radius: 4px;
+}
+
+.tile[aria-current="page"] {
+  box-shadow: 0 0 0 1px var(--accent), 0 0 18px rgba(201, 164, 92, 0.35);
+}
+
+/* Ảnh tròn có viền kim loại như huy chương */
+.tile-cover .cover {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px rgba(201, 164, 92, 0.6);
+}
+
+.tile-name {
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.badge { font-family: "Be Vietnam Pro", sans-serif; letter-spacing: 0.02em; }
+
+.badge-players { background: var(--surface); border-color: var(--border); color: var(--text); }
+
+/* ===== Khung trưng bày ===== */
+.showcase {
+  background: var(--surface);
+  border-color: var(--border);
+  border-radius: 4px;
+}
+
+.showcase-bg {
+  background:
+    radial-gradient(circle at 72% 42%, rgba(201, 164, 92, 0.16), transparent 60%),
+    var(--surface);
+}
+
+/* Tên game: chữ có chân, nghiêng, ánh kim */
+.showcase-title {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(2.8rem, 6vw, 5.4rem);
+  line-height: 1.08;
+  background: var(--metal);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.45));
+  animation: metal-shine 7s linear infinite;
+}
+
+:root[data-theme="light"] .showcase-title { filter: drop-shadow(0 2px 6px rgba(60, 45, 20, 0.25)); }
+
+.showcase-sub {
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--gold-text);
+}
+
+.quick-bar li {
+  border-color: var(--border);
+  border-radius: 999px;
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* ===== Bảng thông số / nội dung nút tròn ===== */
+.info-panel {
+  border-color: var(--border);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+}
+
+.panel-title {
+  font-family: "Playfair Display", serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.7rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text);
+}
+
+.panel-close {
+  border-color: var(--border);
+  border-radius: 4px;
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+.panel-body h3 {
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--gold-text);
+}
+
+.stat-table tr { border-bottom-color: var(--border); }
+
+.stat-table th {
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.stat-table td {
+  font-family: "Playfair Display", serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--gold-text);
+}
+
+.tag { color: var(--gold-text); background: rgba(201, 164, 92, 0.14); }
+
+.level-score { font-family: "Playfair Display", serif; }
+
+.empty-note { background: transparent; border-color: var(--border); }
+
+/* ===== 6 nút tròn: huy chương viền kim loại ===== */
+.node-ring::before { border-color: rgba(201, 164, 92, 0.35); }
+
+.node {
+  border: 0;
+  background:
+    radial-gradient(circle, var(--node-bg) 62%, transparent 64%),
+    conic-gradient(from 200deg, #8a6a2f, #fff4d6, #c9a45c, #6e5424, #f1dca5, #8a6a2f);
+  box-shadow: var(--shadow);
+}
+
+.node:hover {
+  box-shadow: var(--shadow), 0 0 26px rgba(201, 164, 92, 0.45);
+}
+
+.node[aria-pressed="true"] {
+  background: var(--metal);
+  color: #0a0f1a;
+}
+
+.node-label {
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.node-center .cover {
+  border: 0;
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 6px #c9a45c, 0 0 30px rgba(201, 164, 92, 0.4);
+}
+
+.node-center .node-label {
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: var(--metal);
+  color: #0a0f1a;
+}
+
+/* ===== Footer ===== */
+.lux-footer { margin-top: 24px; }
+
+@media (max-width: 900px) {
+  .lux-header-right { gap: 12px; }
+  .game-list { position: static; height: auto; }
+  .node-label { font-size: 0.56rem; letter-spacing: 0.08em; }
+}
+
+/* ===== Nút lưu vào "Tủ game của tôi" ===== */
+.shelf-btn {
+  margin-top: 14px;
+  padding: 9px 20px;
+  border: 1px solid #c9a45c;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gold-text);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.shelf-btn:hover { box-shadow: 0 0 18px rgba(201, 164, 92, 0.35); }
+
+.shelf-btn:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+
+.shelf-btn[aria-pressed="true"] {
+  border-color: transparent;
+  background: var(--metal);
+  color: #0a0f1a;
 }

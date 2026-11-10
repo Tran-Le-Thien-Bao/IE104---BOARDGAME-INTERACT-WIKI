@@ -3,42 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Danh sách board game trên wiki.">
-  <title>Khám phá board game | Wiki Board Game</title>
+  <meta name="description" content="Tìm board game theo số người, thời gian, độ khó và thể loại.">
+  <title>Khám phá | MeeplePedia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="index.html">🎲 <span>Wiki Board Game</span></a>
+  <header class="lux-header" id="lux-header">
+    <div class="lux-container lux-header-inner">
+      <a class="lux-logo" href="index.html">
+        <span class="lux-logo-mark" aria-hidden="true">♜</span>
+        <span class="metal-text">MeeplePedia</span>
+      </a>
       <button class="menu-toggle" aria-label="Mở menu" aria-expanded="false" aria-controls="site-nav">☰</button>
       <nav class="site-nav" id="site-nav" aria-label="Menu chính">
         <a href="index.html">Trang chủ</a>
         <a href="games.html" aria-current="page">Khám phá</a>
+        <a href="games.html?saved=1">Tủ game</a>
         <a href="about.html">Giới thiệu</a>
       </nav>
     </div>
   </header>
 
-  <main class="container page">
-    <h1>Khám phá board game</h1>
-    <p class="section-desc">Bộ lọc và tìm kiếm sẽ có ở giai đoạn sau.</p>
-    <div class="card-grid" id="game-grid">
-      <!-- js/main.js vẽ toàn bộ game vào đây -->
+  <main>
+    <section class="lux-page-hero" aria-labelledby="page-title">
+      <img class="lux-page-hero-bg" src="assets/images/084/084b.webp" alt="">
+      <div class="lux-container">
+        <nav class="lux-breadcrumb" aria-label="Vị trí trang">
+          <a href="index.html">Trang chủ</a> <span aria-hidden="true">/</span> Khám phá
+        </nav>
+        <h1 id="page-title" class="lux-page-title">Khám phá <span class="metal-text">board game</span></h1>
+        <p class="lux-page-text">Lọc theo số người, thời gian và độ khó để tìm đúng game cho buổi chơi tối nay.</p>
+      </div>
+    </section>
+
+    <div class="lux-container lux-explore">
+      <!-- Bộ lọc -->
+      <aside class="lux-filters-wrap" aria-label="Bộ lọc">
+        <details class="lux-filters" id="lux-filters" open>
+          <summary>Bộ lọc</summary>
+          <form id="filter-form" class="lux-filter-form" role="search">
+            <div class="lux-field">
+              <label for="f-q">Tìm kiếm</label>
+              <input id="f-q" name="q" type="search" placeholder="Tên game, tác giả… (gõ không dấu cũng được)" autocomplete="off">
+            </div>
+
+            <div class="lux-field">
+              <label for="f-players">Số người chơi</label>
+              <select id="f-players" name="players"></select>
+            </div>
+
+            <div class="lux-field">
+              <label for="f-time">Thời gian một ván</label>
+              <select id="f-time" name="time"></select>
+            </div>
+
+            <fieldset class="lux-field">
+              <legend>Độ khó</legend>
+              <div class="lux-chips" id="f-level"></div>
+            </fieldset>
+
+            <fieldset class="lux-field">
+              <legend>Thể loại</legend>
+              <div class="lux-chips" id="f-cat"></div>
+            </fieldset>
+
+            <div class="lux-field">
+              <label class="lux-check"><input type="checkbox" name="saved" value="1"> <span>♥ Chỉ game trong tủ của tôi</span></label>
+            </div>
+
+            <button type="button" class="lux-btn lux-btn-outline lux-reset" id="f-reset">Xóa bộ lọc</button>
+          </form>
+        </details>
+      </aside>
+
+      <!-- Kết quả -->
+      <section class="lux-results" aria-labelledby="result-count">
+        <div class="lux-results-head">
+          <p id="result-count" class="lux-result-count" aria-live="polite"></p>
+          <div class="lux-sort">
+            <label for="f-sort">Sắp xếp</label>
+            <select id="f-sort" name="sort" form="filter-form"></select>
+          </div>
+        </div>
+        <p class="lux-active-col" id="active-col" hidden></p>
+        <div class="lux-grid lux-grid-3" id="game-grid"></div>
+        <p class="lux-empty" id="empty-note" hidden>Không có game nào khớp bộ lọc. Thử bỏ bớt điều kiện nhé.</p>
+        <p class="lux-center"><button type="button" class="lux-btn lux-btn-outline" id="more-btn">Xem thêm</button></p>
+      </section>
     </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Wiki Board Game · Đồ án môn HTML</p>
-      <p class="footer-note">Bố cục lấy cảm hứng từ Board Game Wikia. Nội dung do nhóm tự viết.</p>
+  <footer class="lux-footer">
+    <div class="lux-container">
+      <span class="lux-rule" aria-hidden="true"></span>
+      <p class="metal-text lux-footer-logo">MeeplePedia</p>
+      <p>© <span id="year"></span> MeeplePedia · Đồ án môn HTML</p>
+      <p class="lux-footer-note">Bố cục lấy cảm hứng từ Board Game Wikia. Nội dung do nhóm tự viết.</p>
     </div>
   </footer>
 
   <script src="js/games.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/explore.js"></script>
 </body>
 </html>

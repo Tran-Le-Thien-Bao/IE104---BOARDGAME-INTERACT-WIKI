@@ -3,55 +3,143 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Giới thiệu về Wiki Board Game và nguồn tham khảo.">
-  <title>Giới thiệu | Wiki Board Game</title>
+  <meta name="description" content="Giới thiệu MeeplePedia, cách nhóm viết luật chơi và nguồn tham khảo.">
+  <title>Giới thiệu | MeeplePedia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="index.html">🎲 <span>Wiki Board Game</span></a>
+  <header class="lux-header" id="lux-header">
+    <div class="lux-container lux-header-inner">
+      <a class="lux-logo" href="index.html">
+        <span class="lux-logo-mark" aria-hidden="true">♜</span>
+        <span class="metal-text">MeeplePedia</span>
+      </a>
       <button class="menu-toggle" aria-label="Mở menu" aria-expanded="false" aria-controls="site-nav">☰</button>
       <nav class="site-nav" id="site-nav" aria-label="Menu chính">
         <a href="index.html">Trang chủ</a>
         <a href="games.html">Khám phá</a>
+        <a href="games.html?saved=1">Tủ game</a>
         <a href="about.html" aria-current="page">Giới thiệu</a>
       </nav>
     </div>
   </header>
 
-  <main class="container page prose">
-    <h1>Giới thiệu</h1>
-    <p>
-      <strong>Wiki Board Game</strong> là thư viện board game bằng tiếng Việt. Mỗi game có phần giới thiệu ngắn
-      và luật chơi được viết lại cho dễ hiểu, để người mới có thể mở hộp và chơi ngay.
-    </p>
+  <main>
+    <section class="lux-page-hero" aria-labelledby="page-title">
+      <img class="lux-page-hero-bg" src="assets/images/100/100b.webp" alt="">
+      <div class="lux-container">
+        <nav class="lux-breadcrumb" aria-label="Vị trí trang">
+          <a href="index.html">Trang chủ</a> <span aria-hidden="true">/</span> Giới thiệu
+        </nav>
+        <h1 id="page-title" class="lux-page-title">Về <span class="metal-text">MeeplePedia</span></h1>
+        <p class="lux-page-text">Thư viện board game bằng tiếng Việt, để ai cũng có thể mở hộp và chơi ngay.</p>
+      </div>
+    </section>
 
-    <h2>Website có gì?</h2>
-    <ul>
-      <li>Thông tin cơ bản của từng game: số người chơi, thời gian, độ tuổi, độ khó.</li>
-      <li>Giới thiệu và luật chơi bằng tiếng Việt.</li>
-      <li>Gợi ý các game tương tự.</li>
-    </ul>
+    <!-- Câu chuyện -->
+    <section class="lux-section lux-container lux-story" aria-labelledby="story-title">
+      <div>
+        <p class="lux-eyebrow">Câu chuyện</p>
+        <h2 id="story-title" class="lux-section-title lux-left">Vì sao có MeeplePedia?</h2>
+        <span class="lux-rule lux-rule-left" aria-hidden="true"></span>
+      </div>
+      <div class="lux-story-text">
+        <p>Mua một hộp board game mới, mở ra là một cuốn sách luật dày bằng tiếng Anh. Cả nhóm ngồi đọc nửa tiếng vẫn chưa chắc đã chơi đúng. MeeplePedia ra đời để rút ngắn nửa tiếng đó.</p>
+        <p>Mỗi game có phần giới thiệu ngắn, thông số rõ ràng và luật chơi được viết lại bằng tiếng Việt cho dễ hiểu. Cái tên lấy từ <em>meeple</em>, con người gỗ nhỏ quen thuộc trên bàn chơi.</p>
+        <ul class="lux-figures" aria-label="Số liệu">
+          <li><strong class="metal-text" data-stat="games"></strong> board game</li>
+          <li><strong class="metal-text" data-stat="categories"></strong> thể loại</li>
+          <li><strong class="metal-text" data-stat="collections"></strong> bộ sưu tập</li>
+        </ul>
+      </div>
+    </section>
 
-    <h2>Nguồn tham khảo</h2>
-    <ul>
-      <li>Bố cục lấy cảm hứng từ <a href="https://boardgamewikia.com/vi" target="_blank" rel="noopener">Board Game Wikia</a>.</li>
-      <li>Toàn bộ chữ và code trên website do nhóm tự viết. Luật chơi được diễn giải lại, không dịch nguyên văn sách luật.</li>
-      <li>Tên game và hình ảnh thuộc bản quyền của tác giả và nhà phát hành tương ứng.</li>
-    </ul>
+    <!-- Website có gì -->
+    <section class="lux-section lux-section-alt" aria-labelledby="feature-title">
+      <div class="lux-container">
+        <header class="lux-section-head">
+          <p class="lux-eyebrow">Website có gì</p>
+          <h2 id="feature-title" class="lux-section-title">Ba thứ bạn cần trước một ván chơi</h2>
+          <span class="lux-rule" aria-hidden="true"></span>
+        </header>
+        <ol class="lux-features">
+          <li>
+            <span class="lux-feature-no metal-text">01</span>
+            <h3>Thông tin nhanh</h3>
+            <p>Số người, thời gian, độ tuổi và độ khó của từng game, xem một lần là biết có hợp với nhóm mình không.</p>
+          </li>
+          <li>
+            <span class="lux-feature-no metal-text">02</span>
+            <h3>Luật chơi tiếng Việt</h3>
+            <p>"Luật trong 1 phút" để vào chơi ngay, và luật đầy đủ cho các game phổ biến: chuẩn bị, một lượt chơi, tính điểm.</p>
+          </li>
+          <li>
+            <span class="lux-feature-no metal-text">03</span>
+            <h3>Gợi ý game tương tự</h3>
+            <p>Thích một game? Trang chi tiết gợi ý các game cùng thể loại để bạn chơi tiếp.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
 
-    <h2>Đồ án</h2>
-    <p>Website được làm cho môn học về HTML, chỉ dùng HTML, CSS và JavaScript thuần.</p>
+    <!-- Cách viết luật -->
+    <section class="lux-section lux-container" aria-labelledby="rule-title">
+      <header class="lux-section-head">
+        <p class="lux-eyebrow">Nguyên tắc</p>
+        <h2 id="rule-title" class="lux-section-title">Chúng tôi viết luật như thế nào</h2>
+        <span class="lux-rule" aria-hidden="true"></span>
+      </header>
+      <ul class="lux-principles">
+        <li><h3>Viết bằng lời của mình</h3><p>Luật được đọc từ sách luật gốc rồi diễn giải lại, không dịch nguyên văn.</p></li>
+        <li><h3>Người mới đọc cũng hiểu</h3><p>Câu ngắn, mỗi câu một ý, giải thích thuật ngữ khi cần.</p></li>
+        <li><h3>Có nguồn để đối chiếu</h3><p>Mỗi game kèm link sách luật gốc của nhà phát hành nếu có.</p></li>
+      </ul>
+    </section>
+
+    <!-- Nhóm thực hiện -->
+    <section class="lux-section lux-section-alt" aria-labelledby="team-title">
+      <div class="lux-container">
+        <header class="lux-section-head">
+          <p class="lux-eyebrow">Nhóm thực hiện</p>
+          <h2 id="team-title" class="lux-section-title">Những người đứng sau bàn chơi</h2>
+          <span class="lux-rule" aria-hidden="true"></span>
+        </header>
+        <ul class="lux-team">
+          <li><span class="lux-avatar" aria-hidden="true">TB</span><h3>Thiên Bảo</h3><p>Trưởng nhóm · Giao diện & dữ liệu</p></li>
+          <li><span class="lux-avatar" aria-hidden="true">AB</span><h3>An Bình</h3><p>Hình ảnh & luật chơi</p></li>
+          <li><span class="lux-avatar" aria-hidden="true">PB</span><h3>Phúc Bảo</h3><p>Hình ảnh & luật chơi</p></li>
+          <li><span class="lux-avatar" aria-hidden="true">YN</span><h3>Yến Nhi</h3><p>Hình ảnh & luật chơi</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Nguồn tham khảo -->
+    <section class="lux-section lux-container lux-narrow" aria-labelledby="source-title">
+      <header class="lux-section-head">
+        <p class="lux-eyebrow">Ghi nguồn</p>
+        <h2 id="source-title" class="lux-section-title">Nguồn tham khảo</h2>
+        <span class="lux-rule" aria-hidden="true"></span>
+      </header>
+      <ul class="lux-sources">
+        <li>Bố cục lấy cảm hứng từ <a href="https://boardgamewikia.com/vi" target="_blank" rel="noopener">Board Game Wikia</a>.</li>
+        <li>Số liệu (rating, độ khó) tham khảo từ BoardGameGeek, là số ước tính và có thể thay đổi theo thời gian.</li>
+        <li>Toàn bộ chữ và code trên website do nhóm tự viết. Luật chơi được diễn giải lại, không dịch nguyên văn sách luật.</li>
+        <li>Tên game và hình ảnh thuộc bản quyền của tác giả và nhà phát hành tương ứng.</li>
+      </ul>
+      <p class="lux-project-note">Website là đồ án môn học về HTML, chỉ dùng HTML, CSS và JavaScript thuần.</p>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Wiki Board Game · Đồ án môn HTML</p>
-      <p class="footer-note">Bố cục lấy cảm hứng từ Board Game Wikia. Nội dung do nhóm tự viết.</p>
+  <footer class="lux-footer">
+    <div class="lux-container">
+      <span class="lux-rule" aria-hidden="true"></span>
+      <p class="metal-text lux-footer-logo">MeeplePedia</p>
+      <p>© <span id="year"></span> MeeplePedia · Đồ án môn HTML</p>
+      <p class="lux-footer-note">Bố cục lấy cảm hứng từ Board Game Wikia. Nội dung do nhóm tự viết.</p>
     </div>
   </footer>
 

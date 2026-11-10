@@ -3,48 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Wiki board game tiếng Việt: giới thiệu và luật chơi dễ hiểu cho từng game.">
-  <title>Wiki Board Game – Luật chơi board game tiếng Việt</title>
+  <meta name="description" content="MeeplePedia: wiki board game tiếng Việt, giới thiệu và luật chơi dễ hiểu cho từng game.">
+  <title>MeeplePedia – Wiki board game tiếng Việt</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="index.html">🎲 <span>Wiki Board Game</span></a>
+  <header class="lux-header" id="lux-header">
+    <div class="lux-container lux-header-inner">
+      <a class="lux-logo" href="index.html">
+        <span class="lux-logo-mark" aria-hidden="true">♜</span>
+        <span class="metal-text">MeeplePedia</span>
+      </a>
       <button class="menu-toggle" aria-label="Mở menu" aria-expanded="false" aria-controls="site-nav">☰</button>
       <nav class="site-nav" id="site-nav" aria-label="Menu chính">
         <a href="index.html" aria-current="page">Trang chủ</a>
         <a href="games.html">Khám phá</a>
+        <a href="games.html?saved=1">Tủ game</a>
         <a href="about.html">Giới thiệu</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <h1>Tìm board game, đọc luật, <span class="highlight">chơi ngay</span></h1>
-        <p>Giới thiệu và luật chơi board game bằng tiếng Việt.</p>
-        <a class="btn" href="games.html">Khám phá game</a>
+    <!-- Hero: ảnh nền đổi dần giữa các game nổi bật -->
+    <section class="lux-hero" aria-labelledby="hero-title">
+      <div class="lux-hero-slides" id="hero-slides" aria-hidden="true"></div>
+      <div class="lux-container lux-hero-content">
+        <p class="lux-eyebrow">Thư viện board game tiếng Việt</p>
+        <h1 id="hero-title" class="lux-hero-title">
+          Mở hộp.<br><span class="metal-text">Đọc luật.</span> Chơi ngay.
+        </h1>
+        <p class="lux-hero-text">Giới thiệu và luật chơi được viết lại cho dễ hiểu, từ game gia đình nhẹ nhàng đến những ván đấu trí hàng giờ.</p>
+
+        <form class="lux-search" action="games.html" role="search">
+          <label class="visually-hidden" for="hero-search">Tìm board game</label>
+          <input id="hero-search" name="q" type="search" placeholder="Tìm tên game, ví dụ: Catan, Ma Sói…" autocomplete="off">
+          <button type="submit" class="lux-btn lux-btn-gold">Tìm game</button>
+        </form>
+
+        <ul class="lux-stats" id="hero-stats" aria-label="Số liệu"></ul>
+      </div>
+      <a class="lux-hero-caption" id="hero-caption" href="#"></a>
+    </section>
+
+    <!-- Tủ game của tôi: game người xem đã lưu ở trang chi tiết -->
+    <section class="lux-section lux-container" id="tu-game" aria-labelledby="shelf-title">
+      <header class="lux-section-head">
+        <p class="lux-eyebrow">Tủ game của tôi</p>
+        <h2 id="shelf-title" class="lux-section-title">Game bạn đã lưu</h2>
+        <span class="lux-rule" aria-hidden="true"></span>
+      </header>
+      <div class="lux-grid" id="shelf-grid"></div>
+      <p class="lux-shelf-empty" id="shelf-empty" hidden>
+        Tủ game đang trống. Mở một game bất kỳ và bấm <strong>♡ Lưu vào tủ game</strong>
+        để giữ lại những game bạn đã chơi hoặc muốn chơi.
+      </p>
+      <p class="lux-center" id="shelf-more" hidden><a class="lux-btn lux-btn-outline" href="games.html?saved=1">Mở cả tủ game</a></p>
+    </section>
+
+    <!-- Bộ sưu tập -->
+    <section class="lux-section lux-container" aria-labelledby="col-title">
+      <header class="lux-section-head">
+        <p class="lux-eyebrow">Bộ sưu tập</p>
+        <h2 id="col-title" class="lux-section-title">Chọn theo buổi chơi của bạn</h2>
+        <span class="lux-rule" aria-hidden="true"></span>
+      </header>
+      <div class="lux-collections" id="lux-collections"></div>
+    </section>
+
+    <!-- Game nổi bật -->
+    <section class="lux-section lux-section-alt" aria-labelledby="featured-title">
+      <div class="lux-container">
+        <header class="lux-section-head">
+          <p class="lux-eyebrow">Tuyển chọn</p>
+          <h2 id="featured-title" class="lux-section-title">Rating cao nhất</h2>
+          <span class="lux-rule" aria-hidden="true"></span>
+        </header>
+        <div class="lux-grid" id="lux-featured"></div>
+        <p class="lux-center"><a class="lux-btn lux-btn-outline" href="games.html">Xem tất cả game</a></p>
       </div>
     </section>
 
-    <div class="container" id="collections">
-      <!-- js/main.js vẽ các bộ sưu tập vào đây -->
-    </div>
+    <!-- Thể loại -->
+    <section class="lux-section lux-container" aria-labelledby="cat-title">
+      <header class="lux-section-head">
+        <p class="lux-eyebrow">Thể loại</p>
+        <h2 id="cat-title" class="lux-section-title">Bạn thích kiểu chơi nào?</h2>
+        <span class="lux-rule" aria-hidden="true"></span>
+      </header>
+      <ul class="lux-categories" id="lux-categories"></ul>
+    </section>
+
+    <!-- Lời giới thiệu -->
+    <section class="lux-quote" aria-label="Về MeeplePedia">
+      <div class="lux-container">
+        <blockquote>
+          <p>“Một bàn chơi, vài người bạn và một bộ luật dễ hiểu. Đó là tất cả những gì một buổi tối vui cần.”</p>
+        </blockquote>
+        <a class="lux-btn lux-btn-outline" href="about.html">Về dự án</a>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Wiki Board Game · Đồ án môn HTML</p>
-      <p class="footer-note">Bố cục lấy cảm hứng từ Board Game Wikia. Nội dung do nhóm tự viết.</p>
+  <footer class="lux-footer">
+    <div class="lux-container">
+      <span class="lux-rule" aria-hidden="true"></span>
+      <p class="metal-text lux-footer-logo">MeeplePedia</p>
+      <p>© <span id="year"></span> MeeplePedia · Đồ án môn HTML</p>
+      <p class="lux-footer-note">Bố cục lấy cảm hứng từ Board Game Wikia. Nội dung do nhóm tự viết.</p>
     </div>
   </footer>
 
   <script src="js/games.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
 </body>
 </html>

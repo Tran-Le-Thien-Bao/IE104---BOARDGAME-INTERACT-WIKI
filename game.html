@@ -4,28 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Giới thiệu và luật chơi board game bằng tiếng Việt.">
-  <title>Chi tiết game | Wiki Board Game</title>
+  <title>Chi tiết game | MeeplePedia</title>
   <script>
     // Đặt theme đã lưu trước khi vẽ trang để không bị nháy màu
     try { document.documentElement.dataset.theme = localStorage.getItem("theme") || "dark"; } catch (e) {}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&family=Dancing+Script:wght@700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/game.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="index.html">🎲 <span>Wiki Board Game</span></a>
-      <button class="menu-toggle" aria-label="Mở menu" aria-expanded="false" aria-controls="site-nav">☰</button>
-      <nav class="site-nav" id="site-nav" aria-label="Menu chính">
-        <a href="index.html">Trang chủ</a>
-        <a href="games.html">Khám phá</a>
-        <a href="about.html">Giới thiệu</a>
-      </nav>
-      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Đổi nền sáng/tối">🌙</button>
+  <header class="lux-header" id="lux-header">
+    <div class="lux-container lux-header-inner">
+      <a class="lux-logo" href="index.html">
+        <span class="lux-logo-mark" aria-hidden="true">♜</span>
+        <span class="metal-text">MeeplePedia</span>
+      </a>
+      <div class="lux-header-right">
+        <button class="menu-toggle" aria-label="Mở menu" aria-expanded="false" aria-controls="site-nav">☰</button>
+        <nav class="site-nav" id="site-nav" aria-label="Menu chính">
+          <a href="index.html">Trang chủ</a>
+          <a href="games.html">Khám phá</a>
+          <a href="games.html?saved=1">Tủ game</a>
+          <a href="about.html">Giới thiệu</a>
+        </nav>
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Đổi nền sáng/tối">🌙</button>
+      </div>
     </div>
   </header>
 
@@ -47,10 +53,12 @@
     </article>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Wiki Board Game · Đồ án môn HTML</p>
-      <p class="footer-note">Bố cục lấy cảm hứng từ Board Game Wikia. Nội dung do nhóm tự viết.</p>
+  <footer class="lux-footer">
+    <div class="lux-container">
+      <span class="lux-rule" aria-hidden="true"></span>
+      <p class="metal-text lux-footer-logo">MeeplePedia</p>
+      <p>© <span id="year"></span> MeeplePedia · Đồ án môn HTML</p>
+      <p class="lux-footer-note">Bố cục lấy cảm hứng từ Board Game Wikia. Nội dung do nhóm tự viết.</p>
     </div>
   </footer>
 

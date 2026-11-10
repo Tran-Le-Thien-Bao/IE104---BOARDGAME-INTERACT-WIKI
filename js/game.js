@@ -1,5 +1,5 @@
 // Trang chi tiết dạng "tủ game": cột trái là danh sách game, khung phải trưng bày game đang chọn.
-// Bấm game ở cột trái thì đổi game mà không tải lại trang; link vẫn là game.html?id=<id>.
+// Bấm game ở cột trái thì đổi game mà không tải lại trang; link vẫn là <trang>?id=<id>.
 // Cần nạp js/games.js và js/main.js trước file này.
 
 // 6 nút tròn quanh ảnh hộp game, theo thứ tự:
@@ -54,7 +54,7 @@ function renderTile(game) {
   const selected = currentGame && currentGame.id === game.id;
   return `
     <li>
-      <a class="tile" href="game.html?id=${game.id}" data-game-id="${game.id}"
+      <a class="tile" href="?id=${game.id}" data-game-id="${game.id}"
          style="--accent: ${mainCategory(game).color}" ${selected ? 'aria-current="page"' : ""}>
         <span class="badge badge-players" title="Số người chơi: ${formatRange(game.players)}">👥 ${formatRange(game.players)}</span>
         <div class="tile-cover">
@@ -175,6 +175,15 @@ function openPanel(panelId) {
   });
 }
 
+// Nút lưu game vào "Tủ game của tôi" (hàm lưu nằm trong main.js)
+function renderShelfButton(game) {
+  const saved = isSaved(game.id);
+  return `
+    <button type="button" class="shelf-btn" id="shelf-btn" aria-pressed="${saved}">
+      ${saved ? "♥ Đã lưu vào tủ game" : "♡ Lưu vào tủ game"}
+    </button>`;
+}
+
 // ===== Khung trưng bày =====
 
 function renderShowcase(container, game) {
@@ -208,6 +217,7 @@ function renderShowcase(container, game) {
           <li class="quick-level" style="--level: ${level.color}" title="Độ khó ${orDash(game.weight, "/5")}">🧠 ${level.label}</li>
           <li title="Thể loại">${categoryIcons}</li>
         </ul>
+        ${renderShelfButton(game)}
       </header>
 
       <section class="info-panel" id="info-panel" aria-labelledby="info-panel-title">
@@ -244,8 +254,8 @@ function selectGame(id, push) {
     return;
   }
 
-  if (push) history.pushState({ id }, "", `game.html?id=${id}`);
-  document.title = `${currentGame.name} – Luật chơi & giới thiệu | Wiki Board Game`;
+  if (push) history.pushState({ id }, "", `?id=${id}`);
+  document.title = `${currentGame.name} – Luật chơi & giới thiệu | MeeplePedia`;
   renderShowcase(showcase, currentGame);
 }
 
@@ -303,6 +313,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const node = event.target.closest("[data-panel]");
     if (node) openPanel(node.dataset.panel);
     if (event.target.closest("[data-close-panel]")) openPanel(currentPanel);
+    if (event.target.closest("#shelf-btn")) {
+      toggleSaved(currentGame.id);
+      document.getElementById("shelf-btn").outerHTML = renderShelfButton(currentGame);
+    }
   });
 
   // Esc: đóng nội dung đang mở, đưa con trỏ về nút tròn vừa bấm
