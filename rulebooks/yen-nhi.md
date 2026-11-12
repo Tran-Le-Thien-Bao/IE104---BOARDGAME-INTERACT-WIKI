@@ -48,7 +48,7 @@ Video: https://www.youtube.com/watch?v=...
 # BÀI LÀM
 
 ## 122 Ticket to Ride
-Link luật: 
+Link luật: https://cdn.svc.asmodee.net/production-daysofwonder/uploads/2026/09/DO7202N_TICKET2RIDE_EUROPE_RULES_EN_20260512_compressed.pdf
 
 - Thu thập các lá bài toa tàu để nối các tuyến đường sắt kết nối các thành phố trên bản đồ.
 - Đầu lượt, chọn 1 trong 3 việc: rút bài toa tàu, đánh bài để chiếm đường, hoặc rút thêm vé nhiệm vụ.
@@ -58,7 +58,7 @@ Link luật:
 - Người có tổng điểm cao nhất từ các tuyến đường và vé nhiệm vụ sẽ giành chiến thắng.
 
 ## 123 Carcassonne
-Link luật: https://s3.amazonaws.com/geekdo-files.com/bgg125611?response-content-disposition=inline%3B%20filename%3D%22Carcassonne_rules_%28Vietnamese%29.pdf%22&response-content-type=application%2Fpdf&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASRSNYN2BU2SPAZNG%2F20261111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261111T113107Z&X-Amz-SignedHeaders=host&X-Amz-Expires=120&X-Amz-Signature=0cbbe9060a94bca9e74d91cf13b486c9409dc141262ae88bf7aec971035d0e5b
+Link luật: https://boardgamegeek.com/filepage/25111/carc-rulespdf
 
 - Xây dựng vùng đất Carcassonne bằng cách rút và đặt các mảnh bản đồ cùng các quân meeple.
 - Mỗi lượt, rút 1 mảnh bản đồ ngẫu nhiên và đặt vào bảng sao cho khớp các nét đường, thành hoặc chùa.
@@ -68,7 +68,7 @@ Link luật: https://s3.amazonaws.com/geekdo-files.com/bgg125611?response-conten
 - Tính điểm các khu vực chưa xong và nông dân trên đồng cỏ; ai nhiều điểm nhất là người thắng.
 
 ## 125 Pandemic
-Link luật: https://s3.amazonaws.com/geekdo-files.com/bgg135019?response-content-disposition=inline%3B%20filename%3D%22BGV_Pandemic_Vietnamese_.pdf%22&response-content-type=application%2Fpdf&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASRSNYN2BU2SPAZNG%2F20261111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261111T113638Z&X-Amz-SignedHeaders=host&X-Amz-Expires=120&X-Amz-Signature=e62564cbfbbffeb30f19c22725331aaa254b2c13ce5a7153e0e7ebbb3108c573
+Link luật: https://boardgamegeek.com/filepage/27536/pandemic-rules-with-permission-from-z-man-games
 
 - Tất cả người chơi cùng thuộc một đội chuyên gia y tế, hợp tác dập tắt 4 mầm bệnh toàn cầu.
 - Mỗi người chơi đảm nhận 1 vai trò với kỹ năng đặc biệt riêng (Bác sĩ, Nhà khoa học...).
@@ -88,7 +88,7 @@ Link luật: https://board-game-rules.com/wp-content/uploads/2025/01/kingdomino_
 - Người chơi có tổng điểm lãnh thổ cao nhất sau khi tính điểm vương miện sẽ chiến thắng.
 
 ## 128 Cascadia
-Link luật: https://s3.amazonaws.com/geekdo-files.com/bgg308516?response-content-disposition=inline%3B%20filename%3D%22Cascadia_Rules_bgg_.pdf%22&response-content-type=application%2Fpdf&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASRSNYN2BU2SPAZNG%2F20261111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261111T114303Z&X-Amz-SignedHeaders=host&X-Amz-Expires=120&X-Amz-Signature=7d9daec28d0430dbdd3b46756e400410a81ff2fa8cb71db5ffeeebde27cf3aa0
+Link luật: https://loodens.com/wp-content/uploads/2023/09/cascadia-rules-english.pdf
 
 - Kiến tạo hệ sinh thái môi trường bằng cách kết hợp đặt các ô địa hình và thẻ linh vật tương ứng.
 - Trong lượt, bạn chọn 1 cặp gồm 1 ô môi trường và 1 thẻ linh vật từ thị trường chung.
@@ -98,7 +98,7 @@ Link luật: https://s3.amazonaws.com/geekdo-files.com/bgg308516?response-conten
 - Người chơi có tổng điểm cao nhất từ mô hình linh vật và chuỗi địa hình lớn nhất sẽ chiến thắng.
 
 ## 131 Hanabi
-Link luật: 
+Link luật: https://cdn.1j1ju.com/medias/b3/a9/0e-hanabi-rulebook.pdf
 
 - Tất cả người chơi hợp tác để bắn một màn pháo hoa rực rỡ bằng cách xếp các lá bài theo thứ tự 1 đến 5.
 - Điểm đặc biệt: bạn cầm bài hướng ra ngoài nên chỉ người khác thấy bài bạn, còn bạn thì không.
@@ -108,7 +108,7 @@ Link luật:
 - Trò chơi kết thúc khi hoàn thành cả 5 chồng pháo hoa hoặc rút hết bài; điểm số dựa trên tổng số lá đánh đúng.
 
 ## 141 Clank!
-Link luật: http://s3.amazonaws.com/geekdo-files.com/bgg170710?response-content-disposition=inline%3B%20filename%3D%22Game_Rules_v1.compressed.pdf%22&response-content-type=application%2Fpdf&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASRSNYN2BU2SPAZNG%2F20261111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261111T115551Z&X-Amz-SignedHeaders=host&X-Amz-Expires=120&X-Amz-Signature=063470c00cc3a3f360e04ccbbe1bd91171d0912903ddc33b9541a1aa0a2d70ba
+Link luật: https://cdn.1j1ju.com/medias/dc/cc/ae-clank-a-deck-building-adventure-rulebook.pdf
 
 - Bạn là tên trộm đột nhập vào hang rồng để cướp kho báu và rút lui an toàn ra ngoài.
 - Đầu lượt, đánh các lá bài trên tay để lấy điểm di chuyển, điểm chiến đấu hoặc mua thêm bài mới.
@@ -118,7 +118,7 @@ Link luật: http://s3.amazonaws.com/geekdo-files.com/bgg170710?response-content
 - Game kết thúc khi tất cả người chơi thoát ra hoặc bị nốc ao; ai nhiều điểm kho báu nhất sẽ thắng.
 
 ## 142 King of Tokyo
-Link luật: https://s3.amazonaws.com/geekdo-files.com/bgg178221?response-content-disposition=inline%3B%20filename%3D%22King_Of_Tokyo_2nd_Vietnamese.pdf%22&response-content-type=application%2Fpdf&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASRSNYN2BU2SPAZNG%2F20261111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261111T115653Z&X-Amz-SignedHeaders=host&X-Amz-Expires=120&X-Amz-Signature=f1dffede08f5cad62d48496082769911d4fa429abbe1aab47837b96aac760ea5
+Link luật: https://cdn.1j1ju.com/medias/f9/2f/9b-king-of-tokyo-rulebook.pdf
 
 - Hóa thân thành các quái thú khổng lồ tranh giành quyền kiểm soát thành phố Tokyo.
 - Trong lượt, đổ 6 xúc xắc và được phép đổ lại tối đa 2 lần để chọn giữ các biểu tượng mong muốn.
@@ -128,7 +128,7 @@ Link luật: https://s3.amazonaws.com/geekdo-files.com/bgg178221?response-conten
 - Trò chơi kết thúc khi có quái thú đạt 20 điểm chiến thắng hoặc là quái thú duy nhất còn sống sót.
 
 ## 145 Sushi Go!
-Link luật: https://s3.amazonaws.com/geekdo-files.com/bgg101843?response-content-disposition=inline%3B%20filename%3D%22SushiGoRulesWeb.pdf%22&response-content-type=application%2Fpdf&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASRSNYN2BU2SPAZNG%2F20261111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261111T115845Z&X-Amz-SignedHeaders=host&X-Amz-Expires=120&X-Amz-Signature=0dd6e237b8bdfa94a96a5f99313adfcf6a81972984e9df949d02d6217b9fe7fe
+Link luật: https://cdn.1j1ju.com/medias/e5/92/74-sushi-go-rulebook.pdf
 
 - Trò chơi chuyền bài nhẩm điểm nhanh, mô phỏng chọn các món ăn trên băng chuyền sushi.
 - Game diễn ra trong 3 vòng; đầu mỗi vòng mỗi người được chia một số lá bài nhất định trên tay.
@@ -138,7 +138,7 @@ Link luật: https://s3.amazonaws.com/geekdo-files.com/bgg101843?response-conten
 - Sau 3 vòng chơi, người có tổng điểm tích lũy từ các món ăn cao nhất sẽ giành chiến thắng.
 
 ## 153 Bang!
-Link luật: https://s3.amazonaws.com/geekdo-files.com/bgg125560?response-content-disposition=inline%3B%20filename%3D%22BANG_rules_%28Vietnamese%29.pdf%22&response-content-type=application%2Fpdf&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASRSNYN2BU2SPAZNG%2F20261111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261111T115945Z&X-Amz-SignedHeaders=host&X-Amz-Expires=120&X-Amz-Signature=6a2bd8c476ab5086ca8c2d562dcbf20ab9f5de8a1f097f1db15138c948ccd3b7
+Link luật: https://cdn.1j1ju.com/medias/8d/fc/eb-bang-rulebook.pdf
 
 - Mỗi người nhận bí mật một vai trò: Cảnh sát trưởng, Cảnh sát viên, Tội phạm hoặc Kẻ hai mặt.
 - Cảnh sát trưởng lộ diện ngay từ đầu; các vai trò khác giữ bí mật để ẩn thân và làm nhiệm vụ riêng.
