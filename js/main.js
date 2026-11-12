@@ -1,9 +1,20 @@
-// Các hàm dùng chung cho mọi trang + vẽ trang chủ / trang Khám phá.
+// Các hàm dùng chung cho mọi trang: định dạng số liệu, ảnh bìa, thẻ game, header, menu.
 // Cần nạp js/games.js trước file này.
 
-// "3–4" hoặc "15" nếu hai số bằng nhau
+// "3–4" hoặc "15" nếu hai số bằng nhau; chưa có số liệu thì "—"
 function formatRange(range) {
+  if (!range) return "—";
   return range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`;
+}
+
+// Thời gian chơi: "30–60′"; chưa có số liệu thì "—"
+function formatTime(time) {
+  return time ? `${formatRange(time)}′` : "—";
+}
+
+// Giá trị kèm đơn vị, ví dụ orDash(10, "+") → "10+"; chưa có số liệu thì "—"
+function orDash(value, suffix = "") {
+  return value === null || value === undefined || value === "" ? "—" : `${value}${suffix}`;
 }
 
 function getGame(id) {
@@ -12,6 +23,7 @@ function getGame(id) {
 
 // Độ khó 1–5 → nhãn và màu, dùng cho huy hiệu và thanh độ khó
 function difficultyLevel(weight) {
+  if (!weight) return { label: "Chưa rõ", color: "#8a8178" };
   if (weight < 2) return { label: "Dễ", color: "#2e9d5b" };
   if (weight < 3) return { label: "Vừa", color: "#d9a514" };
   if (weight < 4) return { label: "Khó", color: "#e0662d" };
@@ -33,6 +45,45 @@ function mainCategory(game) {
   return CATEGORIES[game.categories[0]];
 }
 
+// Game có rating cao nhất, dùng cho hero và mục "Tuyển chọn" ở trang chủ
+function topRated(count) {
+  return GAMES
+    .filter((game) => game.rating && game.banner)
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, count);
+}
+
+// ===== Tủ game của tôi =====
+// Danh sách id game người xem đã lưu, giữ trong localStorage của trình duyệt (không cần tài khoản).
+const SHELF_KEY = "meeplepedia-shelf";
+
+function getShelf() {
+  try {
+    return JSON.parse(localStorage.getItem(SHELF_KEY)) || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function isSaved(id) {
+  return getShelf().includes(id);
+}
+
+// Lưu hoặc bỏ lưu một game; trả về true nếu game vừa được lưu
+function toggleSaved(id) {
+  const shelf = getShelf();
+  const index = shelf.indexOf(id);
+  if (index === -1) shelf.unshift(id);
+  else shelf.splice(index, 1);
+  try { localStorage.setItem(SHELF_KEY, JSON.stringify(shelf)); } catch (e) {}
+  return index === -1;
+}
+
+// Game trong tủ, game lưu sau cùng đứng đầu
+function shelfGames() {
+  return getShelf().map(getGame).filter(Boolean);
+}
+
 // Ảnh bìa: dùng ảnh thật nếu có, không thì vẽ ảnh tạm bằng CSS
 function renderCover(game) {
   if (game.image) {
@@ -46,59 +97,44 @@ function renderCover(game) {
     </div>`;
 }
 
-// Thẻ game. Cấu trúc .card > .card-inner > .card-front / .card-back
-// được giữ sẵn để sau này gắn hiệu ứng hover mà không phải sửa HTML.
+// Thẻ game ở trang chủ và trang Khám phá.
+// Giữ cấu trúc .card > .card-inner > .card-front / .card-back để gắn hiệu ứng hover.
 function renderCard(game) {
-  const category = mainCategory(game);
+  const level = difficultyLevel(game.weight);
   return `
-    <article class="card" style="--accent: ${category.color}">
-      <a class="card-link" href="game.html?id=${game.id}">
+    <article class="card lux-card">
+      <a class="lux-card-link" href="game.html?id=${game.id}">
         <div class="card-inner">
           <div class="card-front">
             ${renderCover(game)}
-            <div class="card-body">
-              <h3 class="card-title">${game.nameVi || game.name}</h3>
-              <p class="card-meta">
-                <span title="Số người chơi">👥 ${formatRange(game.players)}</span>
-                <span title="Thời gian">⏱ ${formatRange(game.time)}′</span>
-              </p>
+            ${isSaved(game.id) ? '<span class="lux-card-saved" title="Có trong tủ game của bạn">♥</span>' : ""}
+            <div class="lux-card-body">
+              <p class="lux-card-rating">★ ${orDash(game.rating)}</p>
+              <h3 class="lux-card-title">${game.nameVi || game.name}</h3>
+              <p class="lux-card-meta">${formatRange(game.players)} người · ${formatTime(game.time)} · ${level.label}</p>
             </div>
           </div>
-          <div class="card-back" aria-hidden="true">
-            <h3 class="card-title">${game.name}</h3>
-            <dl class="card-stats">
-              <dt>Số người</dt><dd>${formatRange(game.players)}</dd>
-              <dt>Thời gian</dt><dd>${formatRange(game.time)} phút</dd>
-              <dt>Độ tuổi</dt><dd>${game.age}+</dd>
-              <dt>Độ khó</dt><dd>${game.weight}/5</dd>
-            </dl>
-          </div>
+          <div class="card-back" aria-hidden="true"></div>
         </div>
       </a>
     </article>`;
 }
 
-// Trang chủ: mỗi bộ sưu tập là một hàng thẻ cuộn ngang
-function renderCollections(container) {
-  container.innerHTML = COLLECTIONS.map((collection) => {
-    const games = GAMES.filter((game) => game.collections.includes(collection.id));
-    return `
-      <section class="collection" aria-labelledby="col-${collection.id}">
-        <div class="section-head">
-          <div>
-            <h2 id="col-${collection.id}">${collection.title}</h2>
-            <p class="section-desc">${collection.desc}</p>
-          </div>
-          <a class="see-all" href="games.html">Tất cả →</a>
-        </div>
-        <div class="card-row">${games.map(renderCard).join("")}</div>
-      </section>`;
-  }).join("");
-}
+// Ô số liệu: <strong data-stat="games"></strong> → số game
+const STATS = {
+  games: () => GAMES.length,
+  categories: () => Object.keys(CATEGORIES).length,
+  collections: () => COLLECTIONS.length,
+  rules: () => GAMES.filter((game) => game.rulesSummary || game.rules).length
+};
 
-// Trang Khám phá: lưới toàn bộ game (bộ lọc sẽ làm ở giai đoạn sau)
-function renderGrid(container) {
-  container.innerHTML = GAMES.map(renderCard).join("");
+// Header trong suốt khi ở đầu trang, có nền khi cuộn xuống
+function setupHeader() {
+  const header = document.getElementById("lux-header");
+  if (!header) return;
+  const update = () => header.classList.toggle("scrolled", window.scrollY > 40);
+  update();
+  window.addEventListener("scroll", update, { passive: true });
 }
 
 // Nút menu trên điện thoại
@@ -114,12 +150,11 @@ function setupMenu() {
 
 document.addEventListener("DOMContentLoaded", () => {
   setupMenu();
+  setupHeader();
 
-  const collections = document.getElementById("collections");
-  if (collections) renderCollections(collections);
-
-  const grid = document.getElementById("game-grid");
-  if (grid) renderGrid(grid);
+  document.querySelectorAll("[data-stat]").forEach((el) => {
+    el.textContent = STATS[el.dataset.stat]();
+  });
 
   const year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();

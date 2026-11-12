@@ -1,5 +1,5 @@
 // Trang chi tiết dạng "tủ game": cột trái là danh sách game, khung phải trưng bày game đang chọn.
-// Bấm game ở cột trái thì đổi game mà không tải lại trang; link vẫn là game.html?id=<id>.
+// Bấm game ở cột trái thì đổi game mà không tải lại trang; link vẫn là <trang>?id=<id>.
 // Cần nạp js/games.js và js/main.js trước file này.
 
 // 6 nút tròn quanh ảnh hộp game, theo thứ tự:
@@ -17,7 +17,8 @@ const DIFFICULTY_NOTES = {
   "Dễ": "Luật ngắn, giải thích trong 5–10 phút. Hợp với người mới và chơi cùng gia đình.",
   "Vừa": "Cần một ván làm quen, sau đó chơi trơn tru. Hợp với nhóm đã chơi vài game.",
   "Khó": "Nhiều luật và lựa chọn, ván đầu nên có người biết chơi hướng dẫn.",
-  "Rất khó": "Luật dài, cần tính toán nhiều. Dành cho người đã quen board game."
+  "Rất khó": "Luật dài, cần tính toán nhiều. Dành cho người đã quen board game.",
+  "Chưa rõ": "Chưa có số liệu độ khó cho game này."
 };
 
 // Các mục trong game.rules; mục "turn" là các bước nên dùng danh sách có số
@@ -53,15 +54,15 @@ function renderTile(game) {
   const selected = currentGame && currentGame.id === game.id;
   return `
     <li>
-      <a class="tile" href="game.html?id=${game.id}" data-game-id="${game.id}"
+      <a class="tile" href="?id=${game.id}" data-game-id="${game.id}"
          style="--accent: ${mainCategory(game).color}" ${selected ? 'aria-current="page"' : ""}>
         <span class="badge badge-players" title="Số người chơi: ${formatRange(game.players)}">👥 ${formatRange(game.players)}</span>
         <div class="tile-cover">
           ${renderCover(game)}
-          <span class="badge badge-level" style="--level: ${level.color}" title="Độ khó: ${level.label} (${game.weight}/5)">${level.label}</span>
+          <span class="badge badge-level" style="--level: ${level.color}" title="Độ khó: ${level.label} (${orDash(game.weight, "/5")})">${level.label}</span>
         </div>
         <span class="tile-name">${game.nameVi || game.name}</span>
-        <span class="tile-meta">⏱ ${formatRange(game.time)}′ · ${game.age}+</span>
+        <span class="tile-meta">⏱ ${formatTime(game.time)} · ${orDash(game.age, "+")}</span>
       </a>
     </li>`;
 }
@@ -81,17 +82,21 @@ const PANEL_CONTENT = {
     const tags = game.categories
       .map((id) => `<span class="tag" style="--accent: ${CATEGORIES[id].color}">${CATEGORIES[id].icon} ${CATEGORIES[id].name}</span>`)
       .join("");
-    return `<p>${game.intro}</p><div class="tags">${tags}</div>`;
+    const intro = game.intro ? `<p>${game.intro}</p>` : emptyNote("ℹ️ Giới thiệu đang được cập nhật.");
+    return `${intro}<div class="tags">${tags}</div>`;
   },
 
   "do-kho": (game) => {
     const level = difficultyLevel(game.weight);
+    const facts = [];
+    if (game.time) facts.push(`Một ván khoảng <strong>${formatRange(game.time)} phút</strong>.`);
+    if (game.age) facts.push(`Từ <strong>${game.age} tuổi</strong> trở lên.`);
     return `
-      <p class="level-score" style="--level: ${level.color}">${level.label} <span>${game.weight}/5</span></p>
-      <div class="meter" style="--level: ${level.color}; --value: ${(game.weight / 5) * 100}%"
-           role="img" aria-label="Độ khó ${game.weight} trên 5"><span></span></div>
+      <p class="level-score" style="--level: ${level.color}">${level.label} <span>${orDash(game.weight, "/5")}</span></p>
+      <div class="meter" style="--level: ${level.color}; --value: ${((game.weight || 0) / 5) * 100}%"
+           role="img" aria-label="Độ khó ${orDash(game.weight, " trên 5")}"><span></span></div>
       <p>${DIFFICULTY_NOTES[level.label]}</p>
-      <p>Một ván khoảng <strong>${formatRange(game.time)} phút</strong>, từ <strong>${game.age} tuổi</strong> trở lên.</p>`;
+      ${facts.length ? `<p>${facts.join(" ")}</p>` : ""}`;
   },
 
   "luat-choi": (game) => {
@@ -138,13 +143,13 @@ function renderStats(game) {
     <table class="stat-table">
       <tbody>
         <tr><th scope="row">Số người chơi</th><td>${formatRange(game.players)}</td></tr>
-        <tr><th scope="row">Thời gian</th><td>${formatRange(game.time)}′</td></tr>
-        <tr><th scope="row">Độ tuổi</th><td>${game.age}+</td></tr>
-        <tr><th scope="row">Độ khó</th><td>${game.weight}/5 · ${level.label}</td></tr>
-        <tr><th scope="row">Năm phát hành</th><td>${game.year}</td></tr>
+        <tr><th scope="row">Thời gian</th><td>${formatTime(game.time)}</td></tr>
+        <tr><th scope="row">Độ tuổi</th><td>${orDash(game.age, "+")}</td></tr>
+        <tr><th scope="row">Độ khó</th><td>${game.weight ? `${game.weight}/5 · ${level.label}` : "—"}</td></tr>
+        <tr><th scope="row">Năm phát hành</th><td>${orDash(game.year)}</td></tr>
         <tr><th scope="row">Rating</th><td>${game.rating ? `${game.rating}/10` : "—"}</td></tr>
-        <tr class="wide"><th scope="row">Tác giả</th><td>${game.designer}</td></tr>
-        <tr class="wide"><th scope="row">Nhà phát hành</th><td>${game.publisher}</td></tr>
+        <tr class="wide"><th scope="row">Tác giả</th><td>${orDash(game.designer)}</td></tr>
+        <tr class="wide"><th scope="row">Nhà phát hành</th><td>${orDash(game.publisher)}</td></tr>
       </tbody>
     </table>`;
 }
@@ -170,6 +175,15 @@ function openPanel(panelId) {
   });
 }
 
+// Nút lưu game vào "Tủ game của tôi" (hàm lưu nằm trong main.js)
+function renderShelfButton(game) {
+  const saved = isSaved(game.id);
+  return `
+    <button type="button" class="shelf-btn" id="shelf-btn" aria-pressed="${saved}">
+      ${saved ? "♥ Đã lưu vào tủ game" : "♡ Lưu vào tủ game"}
+    </button>`;
+}
+
 // ===== Khung trưng bày =====
 
 function renderShowcase(container, game) {
@@ -178,8 +192,9 @@ function renderShowcase(container, game) {
   const categoryIcons = game.categories
     .map((id) => `<span title="${CATEGORIES[id].name}">${CATEGORIES[id].icon}</span>`)
     .join(" ");
-  const background = game.image
-    ? `<img class="showcase-photo" src="${game.image}" alt="">`
+  const photo = game.banner || game.image;
+  const background = photo
+    ? `<img class="showcase-photo" src="${photo}" alt="">`
     : `<span class="showcase-icon">${category.icon}</span>`;
   const nodes = PANELS.map((panel, index) => `
     <button type="button" class="node node-${index + 1}" data-panel="${panel.id}"
@@ -194,14 +209,15 @@ function renderShowcase(container, game) {
     <div class="showcase-content">
       <header class="showcase-head">
         <h1 class="showcase-title">${game.name}</h1>
-        <p class="showcase-sub">${game.nameVi ? `${game.nameVi} · ` : ""}${game.year}</p>
+        <p class="showcase-sub">${[game.nameVi, game.year].filter(Boolean).join(" · ")}</p>
         <ul class="quick-bar" aria-label="Thông tin nhanh">
           <li title="Số người chơi">👥 ${formatRange(game.players)} người</li>
-          <li title="Thời gian">⏱ ${formatRange(game.time)}′</li>
-          <li title="Độ tuổi">🎂 ${game.age}+</li>
-          <li class="quick-level" style="--level: ${level.color}" title="Độ khó ${game.weight}/5">🧠 ${level.label}</li>
+          <li title="Thời gian">⏱ ${formatTime(game.time)}</li>
+          <li title="Độ tuổi">🎂 ${orDash(game.age, "+")}</li>
+          <li class="quick-level" style="--level: ${level.color}" title="Độ khó ${orDash(game.weight, "/5")}">🧠 ${level.label}</li>
           <li title="Thể loại">${categoryIcons}</li>
         </ul>
+        ${renderShelfButton(game)}
       </header>
 
       <section class="info-panel" id="info-panel" aria-labelledby="info-panel-title">
@@ -212,7 +228,7 @@ function renderShowcase(container, game) {
         ${nodes}
         <div class="node-center">
           ${renderCover(game)}
-          <span class="node-label">${game.year}</span>
+          <span class="node-label">${orDash(game.year)}</span>
         </div>
       </nav>
     </div>`;
@@ -238,8 +254,8 @@ function selectGame(id, push) {
     return;
   }
 
-  if (push) history.pushState({ id }, "", `game.html?id=${id}`);
-  document.title = `${currentGame.name} – Luật chơi & giới thiệu | Wiki Board Game`;
+  if (push) history.pushState({ id }, "", `?id=${id}`);
+  document.title = `${currentGame.name} – Luật chơi & giới thiệu | MeeplePedia`;
   renderShowcase(showcase, currentGame);
 }
 
@@ -297,6 +313,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const node = event.target.closest("[data-panel]");
     if (node) openPanel(node.dataset.panel);
     if (event.target.closest("[data-close-panel]")) openPanel(currentPanel);
+    if (event.target.closest("#shelf-btn")) {
+      toggleSaved(currentGame.id);
+      document.getElementById("shelf-btn").outerHTML = renderShelfButton(currentGame);
+    }
   });
 
   // Esc: đóng nội dung đang mở, đưa con trỏ về nút tròn vừa bấm
